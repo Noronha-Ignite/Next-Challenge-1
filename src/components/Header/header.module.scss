@@ -1,1 +1,14 @@
-// TODO
+.header {
+  width: 100%;
+
+  .imageWrapper {
+    max-width: 720px;
+    height: 100%;
+    width: 100%;
+
+    padding: 2.5rem .625rem;
+    margin: 0 auto;
+
+    cursor: pointer;
+  }
+}

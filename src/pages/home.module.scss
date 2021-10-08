@@ -1,1 +1,61 @@
-// TODO
+.content {
+  max-width: 720px;
+  padding: 5rem .625rem;
+  margin: 0 auto;
+
+  .imageWrapper {
+    margin-bottom: 4rem;
+  }
+
+  .post {
+    cursor: pointer;
+
+    h2 {
+      font-size: 1.625rem;
+      font-weight: 700;
+      margin-bottom: .5rem;
+      transition: color .2s;
+    }
+
+    h4 {
+      font-size: 1.125rem;
+      font-weight: 400;
+      color: var(--light-gray);
+      margin-bottom: 1.5rem;
+    }
+
+    .postFooter {
+      display: flex;
+      gap: 1.5rem;
+
+      div {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: .5rem;
+
+        span {
+          color: var(--gray);
+          font-size: 0.875rem;
+        }
+      }
+    }
+
+    & + .post {
+      margin-top: 3rem;
+    }
+
+    &:hover h2 {
+      color: var(--pink);
+    }
+  }
+
+  button {
+    background: none;
+    border: none;
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: var(--pink);
+    margin-top: 4rem;
+  }
+}
