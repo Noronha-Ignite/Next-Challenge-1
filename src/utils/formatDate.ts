@@ -6,3 +6,9 @@ export const formatDate = (date: Date) => {
     locale: ptBR,
   });
 };
+
+export const formatHours = (date: Date) => {
+  return format(date, 'kk:mm', {
+    locale: ptBR,
+  });
+};
