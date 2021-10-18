@@ -12,6 +12,7 @@ import { getPrismicClient } from '../../services/prismic';
 
 import styles from './post.module.scss';
 import { formatDate } from '../../utils/formatDate';
+import Comments from '../../components/Comments';
 
 interface Post {
   uid?: string;
@@ -99,6 +100,8 @@ export default function Post({ post }: PostProps) {
           ))}
         </div>
       </main>
+
+      <Comments className={styles.commentsWrapper} />
     </div>
   );
 }
