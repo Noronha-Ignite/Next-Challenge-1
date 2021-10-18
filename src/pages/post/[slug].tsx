@@ -8,12 +8,14 @@ import Prismic from '@prismicio/client';
 
 import Header from '../../components/Header';
 import SpinningLoadingCircle from '../../components/SpinningLoadingCircle';
+import Comments from '../../components/Comments';
 
 import { getPrismicClient } from '../../services/prismic';
 
 import styles from './post.module.scss';
+import commonStyles from '../../styles/common.module.scss';
+
 import { formatDate } from '../../utils/formatDate';
-import Comments from '../../components/Comments';
 
 interface Post {
   uid?: string;
@@ -101,17 +103,16 @@ export default function Post({ post, preview }: PostProps) {
             </Fragment>
           ))}
         </div>
+        <Comments className={styles.commentsWrapper} />
+
+        {preview && (
+          <aside className={commonStyles.exitPreviewBtn}>
+            <Link href="/api/exit-preview">
+              <a>Sair do modo Preview</a>
+            </Link>
+          </aside>
+        )}
       </main>
-
-      <Comments className={styles.commentsWrapper} />
-
-      {preview && (
-        <aside>
-          <Link href="/api/exit-preview">
-            <a>Sair do modo Preview</a>
-          </Link>
-        </aside>
-      )}
     </div>
   );
 }

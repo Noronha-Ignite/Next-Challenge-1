@@ -8,6 +8,8 @@ import { useState } from 'react';
 import { getPrismicClient } from '../services/prismic';
 
 import styles from './home.module.scss';
+import commonStyles from '../styles/common.module.scss';
+
 import SpinningLoadingCircle from '../components/SpinningLoadingCircle';
 import { formatDate } from '../utils/formatDate';
 
@@ -88,7 +90,10 @@ export default function Home({
       )}
 
       {preview && (
-        <aside>
+        <aside
+          style={{ marginTop: 32 }}
+          className={commonStyles.exitPreviewBtn}
+        >
           <Link href="/api/exit-preview">
             <a>Sair do modo Preview</a>
           </Link>

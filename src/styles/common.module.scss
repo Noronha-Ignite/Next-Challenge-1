@@ -1,1 +1,13 @@
-// TODO
+.exitPreviewBtn {
+  width: 100%;
+
+  a {
+    display: block;
+    width: 100%;
+    text-align: center;
+    background: var(--white);
+    color: var(--dark-background);
+    padding: 1.125rem 0;
+    font-weight: 600;
+  }
+}
