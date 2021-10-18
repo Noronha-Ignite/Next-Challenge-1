@@ -3,7 +3,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import Prismic from '@prismicio/client';
 import { FiCalendar, FiUser } from 'react-icons/fi';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { getPrismicClient } from '../services/prismic';
 
@@ -12,6 +12,7 @@ import commonStyles from '../styles/common.module.scss';
 
 import SpinningLoadingCircle from '../components/SpinningLoadingCircle';
 import { formatDate } from '../utils/formatDate';
+import { usePosts } from '../hooks/usePosts';
 
 interface Post {
   uid?: string;
@@ -37,9 +38,10 @@ export default function Home({
   postsPagination: { next_page, results },
   preview,
 }: HomeProps) {
+  const { setPosts, posts } = usePosts();
+
   const [loading, setLoading] = useState(false);
   const [nextPageUrl, setNextPageUrl] = useState<string | null>(next_page);
-  const [posts, setPosts] = useState(results);
 
   const loadNextPage = () => {
     setLoading(true);
@@ -53,6 +55,10 @@ export default function Home({
         setLoading(false);
       });
   };
+
+  useEffect(() => {
+    setPosts(results);
+  }, [results, setPosts]);
 
   return (
     <main className={styles.content}>

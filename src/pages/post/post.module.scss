@@ -87,6 +87,52 @@
     }
   }
 
+  .navFooter {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    padding-top: 3rem;
+    margin: 3.5rem 0;
+    position: relative;
+
+    a {
+      display: flex;
+      justify-content: center;
+      gap: .5rem;
+      flex-direction: column;
+
+      span {
+        font-size: 1.125rem;
+        color: var(--white);
+      }
+
+      h4 {
+        font-size: 1rem;
+        font-weight: 600;
+        color: var(--pink);
+      }
+    }
+
+    a.previousPost {
+      align-items: flex-start;
+    }
+
+    a.nextPost {
+      align-items: flex-end;
+    }
+
+    &::before {
+      content: '';
+      height: 1px;
+      background: var(--light-gray);
+      width: 100%;
+      position: absolute;
+      top: 0;
+      left: 0;
+      opacity: .1;
+    }
+  }
+
   .commentsWrapper {
     margin-bottom: 3rem;
   }

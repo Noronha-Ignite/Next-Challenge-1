@@ -2,7 +2,7 @@ import { GetStaticPaths, GetStaticProps } from 'next';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 import { RichText } from 'prismic-dom';
-import { Fragment } from 'react';
+import { Fragment, useMemo } from 'react';
 import { FiCalendar, FiClock, FiUser } from 'react-icons/fi';
 import Prismic from '@prismicio/client';
 
@@ -16,6 +16,7 @@ import styles from './post.module.scss';
 import commonStyles from '../../styles/common.module.scss';
 
 import { formatDate } from '../../utils/formatDate';
+import { usePosts } from '../../hooks/usePosts';
 
 interface Post {
   uid?: string;
@@ -53,6 +54,14 @@ function getWordAmountByPost(post: Post) {
 
 export default function Post({ post, preview }: PostProps) {
   const router = useRouter();
+  const { posts } = usePosts();
+
+  const [previousPost, nextPost] = useMemo(() => {
+    const currentIndex = posts.findIndex(listPost => listPost.uid === post.uid);
+    const previous = posts[currentIndex - 1];
+    const next = posts[currentIndex + 1];
+    return [previous, next];
+  }, [posts, post]);
 
   if (router.isFallback)
     return (
@@ -103,6 +112,32 @@ export default function Post({ post, preview }: PostProps) {
             </Fragment>
           ))}
         </div>
+
+        {(previousPost || nextPost) && (
+          <nav className={styles.navFooter}>
+            <div>
+              {previousPost && (
+                <Link href={previousPost.uid}>
+                  <a className={styles.previousPost}>
+                    <span>{previousPost.data.title}</span>
+                    <h4>Post anterior</h4>
+                  </a>
+                </Link>
+              )}
+            </div>
+            <div>
+              {nextPost && (
+                <Link href={nextPost.uid}>
+                  <a className={styles.nextPost}>
+                    <span>{nextPost.data.title}</span>
+                    <h4>Próximo post</h4>
+                  </a>
+                </Link>
+              )}
+            </div>
+          </nav>
+        )}
+
         <Comments className={styles.commentsWrapper} />
 
         {preview && (
