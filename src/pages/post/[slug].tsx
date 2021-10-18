@@ -58,6 +58,8 @@ export default function Post({ post, preview }: PostProps) {
   const { posts } = usePosts();
 
   const [previousPost, nextPost] = useMemo(() => {
+    if (!posts) return [null, null];
+
     const currentIndex = posts.findIndex(listPost => listPost.uid === post.uid);
     const previous = posts[currentIndex - 1];
     const next = posts[currentIndex + 1];

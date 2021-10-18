@@ -38,10 +38,11 @@ export default function Home({
   postsPagination: { next_page, results },
   preview,
 }: HomeProps) {
-  const { setPosts, posts } = usePosts();
+  const { setPosts: setContextPosts } = usePosts();
 
   const [loading, setLoading] = useState(false);
   const [nextPageUrl, setNextPageUrl] = useState<string | null>(next_page);
+  const [posts, setPosts] = useState(results);
 
   const loadNextPage = () => {
     setLoading(true);
@@ -50,6 +51,7 @@ export default function Home({
       .then(response => {
         setNextPageUrl(response.next_page);
         setPosts([...posts, ...response.results]);
+        setContextPosts(posts);
       })
       .finally(() => {
         setLoading(false);
@@ -57,8 +59,8 @@ export default function Home({
   };
 
   useEffect(() => {
-    setPosts(results);
-  }, [results, setPosts]);
+    if (setContextPosts) setContextPosts(results);
+  }, [results, setContextPosts]);
 
   return (
     <main className={styles.content}>
