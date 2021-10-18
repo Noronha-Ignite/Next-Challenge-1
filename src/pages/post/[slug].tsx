@@ -1,10 +1,11 @@
 import { GetStaticPaths, GetStaticProps } from 'next';
+import { useRouter } from 'next/router';
+import Link from 'next/link';
 import { RichText } from 'prismic-dom';
 import { Fragment } from 'react';
 import { FiCalendar, FiClock, FiUser } from 'react-icons/fi';
 import Prismic from '@prismicio/client';
 
-import { useRouter } from 'next/router';
 import Header from '../../components/Header';
 import SpinningLoadingCircle from '../../components/SpinningLoadingCircle';
 
@@ -35,6 +36,7 @@ interface Post {
 
 interface PostProps {
   post: Post;
+  preview: boolean;
 }
 
 function getWordAmountByPost(post: Post) {
@@ -47,7 +49,7 @@ function getWordAmountByPost(post: Post) {
   }, 0);
 }
 
-export default function Post({ post }: PostProps) {
+export default function Post({ post, preview }: PostProps) {
   const router = useRouter();
 
   if (router.isFallback)
@@ -102,14 +104,28 @@ export default function Post({ post }: PostProps) {
       </main>
 
       <Comments className={styles.commentsWrapper} />
+
+      {preview && (
+        <aside>
+          <Link href="/api/exit-preview">
+            <a>Sair do modo Preview</a>
+          </Link>
+        </aside>
+      )}
     </div>
   );
 }
 
-export const getStaticProps: GetStaticProps = async ({ params }) => {
+export const getStaticProps: GetStaticProps = async ({
+  params,
+  preview = false,
+  previewData,
+}) => {
   const { slug } = params as { slug: string };
   const prismic = getPrismicClient();
-  const response = await prismic.getByUID('post', slug, {});
+  const response = await prismic.getByUID('post', slug, {
+    ref: previewData?.ref ?? null,
+  });
 
   const post: Post = {
     uid: response.uid,
@@ -131,6 +147,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
   return {
     props: {
       post,
+      preview,
     },
     revalidate: 60 * 60 * 4, // 4 hours
   };
